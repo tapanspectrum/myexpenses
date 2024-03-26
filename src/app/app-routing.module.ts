@@ -11,6 +11,7 @@ import { AppLayoutComponent } from "./layout/app.layout.component";
                     { path: '', loadChildren: () => import('./routes/admindashboard/dashboard/dashboard.module').then(m => m.DashboardModule) },  
                     { path: 'users', loadChildren: () => import('./routes/admindashboard/users/users.module').then(m => m.UsersModule) },  
                     { path: 'products', loadChildren: () => import('./routes/admindashboard/products/products.module').then(m => m.ProductsModule) },  
+                    { path: 'roles', loadChildren: () => import('./routes/admindashboard/roles/roles.module').then(m => m.RolesModule) },    
                     { path: 'categories', loadChildren: () => import('./routes/admindashboard/category/category.module').then(m => m.CategoryModule) },    
                 ]
             },

@@ -20,6 +20,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Dashboard', routerLink: ['/admin'] },
                     { label: 'Users',  routerLink: ['/admin/users'] },
                     { label: 'Categories', routerLink: ['/admin/categories'] },
+                    { label: 'Roles', routerLink: ['/admin/roles'] },
                     { label: 'Products',  routerLink: ['/admin/products'] }
                 ]
             }

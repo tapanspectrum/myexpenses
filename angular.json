@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "sakai-ng": {
+        "tapu-product": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/sakai-ng",
+                        "outputPath": "dist/tapu-product",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": [
@@ -30,7 +30,8 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.scss"
+                            "src/styles.scss",
+                            "node_modules/ngx-toastr/toastr.css"
                         ],
                         "scripts": []
                     },
@@ -65,10 +66,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "sakai-ng:build:production"
+                            "buildTarget": "tapu-product:build:production"
                         },
                         "development": {
-                            "buildTarget": "sakai-ng:build:development"
+                            "buildTarget": "tapu-product:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -76,7 +77,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "buildTarget": "sakai-ng:build"
+                        "buildTarget": "tapu-product:build"
                     }
                 },
                 "test": {
@@ -94,12 +95,16 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.scss"
+                            "src/styles.scss",
+                            "node_modules/ngx-toastr/toastr.css"
                         ],
                         "scripts": []
                     }
                 }
             }
         }
+    },
+    "cli": {
+      "analytics": "efa72b3c-2293-4260-b546-4bc339c0bdfb"
     }
 }
