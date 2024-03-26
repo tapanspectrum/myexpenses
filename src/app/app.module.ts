@@ -1,5 +1,11 @@
 import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import {
+    HashLocationStrategy,
+    LocationStrategy,
+    PathLocationStrategy,
+} from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
@@ -14,11 +20,21 @@ import { PhotoService } from './demo/service/photo.service';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
-    imports: [AppRoutingModule, AppLayoutModule],
+    imports: [
+        AppRoutingModule,
+        AppLayoutModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+    ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
-        CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService
+        CountryService,
+        CustomerService,
+        EventService,
+        IconService,
+        NodeService,
+        PhotoService,
+        ProductService,
     ],
     bootstrap: [AppComponent],
 })

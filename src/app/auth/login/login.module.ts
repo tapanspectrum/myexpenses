@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({

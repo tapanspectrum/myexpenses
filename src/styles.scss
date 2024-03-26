@@ -12,3 +12,24 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 @import "assets/demo/styles/code.scss";
+
+.layout-sidebar {
+    top: 6rem !important;
+    left: 1rem !important;
+    border-radius: 0px !important;
+}
+.layout-main-container {
+    padding: 6rem 2rem 2rem 4rem !important;
+}
+
+.card {
+    border-radius: 0px !important;
+}
+
+.no-bo {
+    border-radius: 0px !important;
+}
+
+.p-button {
+    border-radius: 0px !important;
+}
