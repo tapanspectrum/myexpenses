@@ -15,6 +15,7 @@ import { RatingModule } from 'primeng/rating';
 
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products/products.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [ProductsComponent],
@@ -34,6 +35,7 @@ import { ProductsComponent } from './products/products.component';
         DropdownModule,
         ProgressBarModule,
         ToastModule,
+        SharedModule
     ],
 })
 export class ProductsModule {}

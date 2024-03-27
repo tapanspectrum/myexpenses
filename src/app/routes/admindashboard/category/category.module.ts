@@ -15,6 +15,7 @@ import { RatingModule } from 'primeng/rating';
 
 import { CategoryRoutingModule } from './category-routing.module';
 import { CategoryComponent } from './category/category.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [CategoryComponent],
@@ -34,6 +35,7 @@ import { CategoryComponent } from './category/category.component';
         ProgressBarModule,
         ToastModule,
         CategoryRoutingModule,
+        SharedModule
     ],
 })
 export class CategoryModule {}

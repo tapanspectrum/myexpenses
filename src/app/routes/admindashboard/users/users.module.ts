@@ -15,6 +15,7 @@ import { RatingModule } from 'primeng/rating';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users/users.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [UsersComponent],
@@ -34,6 +35,7 @@ import { UsersComponent } from './users/users.component';
         DropdownModule,
         ProgressBarModule,
         ToastModule,
+        SharedModule
     ],
 })
 export class UsersModule {}

@@ -15,6 +15,7 @@ import { RatingModule } from 'primeng/rating';
 
 import { RolesRoutingModule } from './roles-routing.module';
 import { RolesComponent } from './roles/roles.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [RolesComponent],
@@ -34,6 +35,7 @@ import { RolesComponent } from './roles/roles.component';
         ProgressBarModule,
         ToastModule,
         RolesRoutingModule,
+        SharedModule
     ],
 })
 export class RolesModule {}

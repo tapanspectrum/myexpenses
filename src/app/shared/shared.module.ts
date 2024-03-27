@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoaderComponent } from './components';
+import { LoaderComponent, BreadcrumbComponent } from './components';
 
 
 
 @NgModule({
-  declarations: [LoaderComponent],
+  declarations: [LoaderComponent, BreadcrumbComponent],
   imports: [
     CommonModule
   ],
-  exports:[LoaderComponent]
+  exports:[LoaderComponent, BreadcrumbComponent]
 })
 export class SharedModule { }
