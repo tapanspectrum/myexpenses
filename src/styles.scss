@@ -34,3 +34,25 @@ $gutter: 1rem; //for primeflex grid system
 .p-button {
     border-radius: 0px !important;
 }
+
+.tp-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 999;
+}
+
+.avatarmenu {
+    z-index: 1001;
+    transform-origin: center top;
+    top: 59px !important;
+    left: 648px;
+}
+
+.p-fluid .p-inputtext {
+    border-radius: 0px !important;
+}
+
+.p-fluid .p-dropdown {
+    border-radius: 0px !important;
+}

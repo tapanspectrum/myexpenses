@@ -12,6 +12,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 import { SliderModule } from 'primeng/slider';
 import { RatingModule } from 'primeng/rating';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsComponent } from './products/products.component';
@@ -35,7 +37,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
         DropdownModule,
         ProgressBarModule,
         ToastModule,
-        SharedModule
+        SharedModule,
+        ConfirmDialogModule,
+        ConfirmPopupModule
     ],
 })
 export class ProductsModule {}

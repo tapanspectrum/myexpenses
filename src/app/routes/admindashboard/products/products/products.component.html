@@ -2,8 +2,9 @@
     <div class="col-12">
         <div class="card">
             <app-breadcrumb title="Product Managment"></app-breadcrumb>
-            <p-table #dt1 [value]="customers1" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="true"
-                styleClass="p-datatable-gridlines" [paginator]="true"
+            <p-toast></p-toast>
+            <p-table #dt1 [value]="productsData" dataKey="id" [rows]="10" editMode="row" [loading]="loading"
+                [rowHover]="true" styleClass="p-datatable-gridlines" [paginator]="true"
                 [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll">
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
@@ -20,143 +21,74 @@
                     <tr>
                         <th style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
-                                Name
-                                <p-columnFilter type="text" field="name" display="menu"
-                                    placeholder="Search by name"></p-columnFilter>
+                                Product Name
+                                <p-columnFilter type="text" field="productname" display="menu"
+                                    placeholder="Search by productname"></p-columnFilter>
                             </div>
                         </th>
                         <th style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
-                                Country
-                                <p-columnFilter type="text" field="country.name" display="menu"
-                                    placeholder="Search by country"></p-columnFilter>
+                                Description
                             </div>
                         </th>
-                        <th style="min-width: 14rem">
+                        <th style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
-                                Agent
-                                <p-columnFilter field="representative" matchMode="in" display="menu"
-                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
-                                    <ng-template pTemplate="header">
-                                        <div class="px-3 pt-3 pb-0">
-                                            <span class="font-bold">Agent Picker</span>
-                                        </div>
-                                    </ng-template>
-                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                        <p-multiSelect [ngModel]="value" [options]="representatives" placeholder="Any"
-                                            (onChange)="filter($event.value)" optionLabel="name">
-                                            <ng-template let-option pTemplate="item">
-                                                <div class="p-multiselect-representative-option">
-                                                    <img [alt]="option.label"
-                                                        src="assets/demo/images/avatar/{{option.image}}" width="32"
-                                                        style="vertical-align: middle" />
-                                                    <span class="ml-2">{{option.name}}</span>
-                                                </div>
-                                            </ng-template>
-                                        </p-multiSelect>
-                                    </ng-template>
-                                </p-columnFilter>
+                                Category Id
+                                <p-columnFilter type="text" field="categoryid" display="menu"
+                                    placeholder="Search by categoryid"></p-columnFilter>
                             </div>
                         </th>
                         <th style="min-width: 10rem">
                             <div class="flex justify-content-between align-items-center">
-                                Date
-                                <p-columnFilter type="date" field="date" display="menu"
-                                    placeholder="mm/dd/yyyy"></p-columnFilter>
-                            </div>
-                        </th>
-                        <th style="min-width: 10rem">
-                            <div class="flex justify-content-between align-items-center">
-                                Balance
-                                <p-columnFilter type="numeric" field="balance" display="menu"
-                                    currency="USD"></p-columnFilter>
+                                Created Date
                             </div>
                         </th>
                         <th style="min-width: 12rem">
                             <div class="flex justify-content-between align-items-center">
                                 Status
-                                <p-columnFilter field="status" matchMode="equals" display="menu">
-                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                        <p-dropdown [ngModel]="value" [options]="statuses"
-                                            (onChange)="filter($event.value)" placeholder="Any"
-                                            [style]="{'min-width': '12rem'}">
-                                            <ng-template let-option pTemplate="item">
-                                                <span
-                                                    [class]="'customer-badge status-' + option.value">{{option.label}}</span>
-                                            </ng-template>
-                                        </p-dropdown>
-                                    </ng-template>
-                                </p-columnFilter>
                             </div>
                         </th>
-                        <th style="min-width: 12rem">
-                            <div class="flex justify-content-between align-items-center">
-                                Activity
-                                <p-columnFilter field="activity" matchMode="between" display="menu"
-                                    [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
-                                    <ng-template pTemplate="filter" let-filter="filterCallback">
-                                        <p-slider [ngModel]="activityValues" [range]="true"
-                                            (onSlideEnd)="filter($event.values)" styleClass="m-3"
-                                            [style]="{'min-width': '12rem'}"></p-slider>
-                                        <div class="flex align-items-center justify-content-between px-2">
-                                            <span>{{activityValues[0]}}</span>
-                                            <span>{{activityValues[1]}}</span>
-                                        </div>
-                                    </ng-template>
-                                </p-columnFilter>
-                            </div>
-                        </th>
-                        <th style="min-width: 8rem">
-                            <div class="flex justify-content-between align-items-center">
-                                Verified
-                                <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
-                            </div>
+                        <th style="width:20%">
+                        Action
                         </th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-customer>
-                    <tr>
+                <ng-template pTemplate="body" let-product let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="product">
                         <td>
-                            {{customer.name}}
+                            {{product.productname}}
                         </td>
                         <td>
-                            <img src="assets/demo/images/flag/flag_placeholder.png"
-                                [class]="'flag flag-' + customer.country.code" width="30">
-                            <span class="image-text ml-2">{{customer.country.name}}</span>
+                            {{product.description}}
                         </td>
                         <td>
-                            <img [alt]="customer.representative.name"
-                                src="assets/demo/images/avatar/{{customer.representative.image}}" width="32"
-                                style="vertical-align: middle" />
-                            <span class="image-text ml-2">{{customer.representative.name}}</span>
+                            {{product.createdby}}
                         </td>
                         <td>
-                            {{customer.date | date: 'MM/dd/yyyy'}}
+                            {{product.createddate | date: 'MM/dd/yyyy'}}
                         </td>
                         <td>
-                            {{customer.balance | currency:'USD':'symbol'}}
+                            <span [class]="'product-badge status-' + product.isactive">{{product.isactive}}</span>
                         </td>
                         <td>
-                            <span [class]="'customer-badge status-' + customer.status">{{customer.status}}</span>
-                        </td>
-                        <td>
-                            <p-progressBar [value]="customer.activity" [showValue]="false"
-                                [style]="{'height': '0.5rem'}"></p-progressBar>
-                        </td>
-                        <td class="text-center">
-                            <i class="pi"
-                                [ngClass]="{'true-icon pi-check-circle text-green-500': customer.verified, 'false-icon pi-times-circle text-pink-500': !customer.verified}"></i>
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="editProduct(product)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteProduct(product)"></button>
+                            </div>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
                     <tr>
-                        <td colspan="8">No customers found.</td>
+                        <td colspan="8">No products found.</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="loadingbody">
                     <tr>
-                        <td colspan="8">Loading customers data. Please wait.</td>
+                        <td colspan="8">Loading products data. Please wait.</td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -164,3 +96,5 @@
 
     </div>
 </div>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

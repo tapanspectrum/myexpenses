@@ -1,0 +1,26 @@
+<div class="grid">
+	<div class="col-12">
+		<form [formGroup]="EditProdForm" (submit)="onSubmit()">
+			<div class="card">
+				<div class="p-fluid p-formgrid grid">
+					<div class="field col-12 md:col-6">
+						<label htmlFor="productname">Product Name</label>
+						<input pInputText id="productname" formControlName="productname" type="text" />
+					</div>
+					<div class="field col-12 md:col-6">
+						<label htmlFor="description">Description</label>
+						<input pInputText id="description" formControlName="description" type="text" />
+					</div>
+					<div class="field col-12">
+						<label htmlFor="address">Address</label>
+						<p-dropdown [options]="prodstatus" [showClear]="true" optionLabel="name" optionValue="value"
+							placeholder="Select a Status" formControlName="isactive"></p-dropdown>
+					</div>
+					<div class="field ml-3">
+						<p-button type="submit" label="Submit" [disabled]="EditProdForm.invalid"></p-button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

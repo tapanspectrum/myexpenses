@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { MenuItem } from 'primeng/api';
 import { Subscription, debounceTime } from 'rxjs';
 import { Product } from 'src/app/demo/api/product';
@@ -22,7 +23,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   subscription!: Subscription;
 
-  constructor(private productService: ProductService, public layoutService: LayoutService) {
+  constructor(private productService: ProductService, public layoutService: LayoutService, private titleService:Title) {
+    this.titleService.setTitle("TP Admin - Dashboard");
       this.subscription = this.layoutService.configUpdate$
       .pipe(debounceTime(25))
       .subscribe((config) => {

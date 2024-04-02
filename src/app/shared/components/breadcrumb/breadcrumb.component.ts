@@ -6,5 +6,6 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './breadcrumb.component.scss'
 })
 export class BreadcrumbComponent {
-@Input() title: string ;
+  @Input()
+  title!: string;
 }

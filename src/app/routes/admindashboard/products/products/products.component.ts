@@ -1,139 +1,98 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Customer, Representative } from 'src/app/demo/api/customer';
-import { CustomerService } from 'src/app/demo/service/customer.service';
-import { Product } from 'src/app/demo/api/product';
-import { ProductService } from 'src/app/demo/service/product.service';
 import { Table } from 'primeng/table';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AdminService } from '../../services';
+import { Observable } from 'rxjs';
+import { EditProductComponent } from '../../../../shared/components'
 
 interface expandedRows {
-  [key: string]: boolean;
+    [key: string]: boolean;
 }
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+  styleUrl: './products.component.scss',
+  providers: [MessageService, ConfirmationService, DialogService],
 })
 export class ProductsComponent implements OnInit {
 
-  customers1: Customer[] = [];
+    productsData!: any;
+    rowGroupMetadata: any;
 
-  customers2: Customer[] = [];
+    expandedRows: expandedRows = {};
 
-  customers3: Customer[] = [];
+    activityValues: number[] = [0, 100];
 
-  selectedCustomers1: Customer[] = [];
+    isExpanded: boolean = false;
 
-  selectedCustomer: Customer = {};
+    idFrozen: boolean = false;
 
-  representatives: Representative[] = [];
+    loading: boolean = true;
 
-  statuses: any[] = [];
+    editing: any;
 
-  products: Product[] = [];
+    @ViewChild('filter') filter!: ElementRef;
 
-  rowGroupMetadata: any;
+    constructor(
+        private adminservice: AdminService,
+        private confirmationService: ConfirmationService,
+        private messageService: MessageService,
+        private dialogservice: DialogService
+    ) {}
 
-  expandedRows: expandedRows = {};
+    ngOnInit() {
+        this.adminservice.getProductsData().subscribe((res) =>{
+            this.productsData = res;
+            this.loading = false;
+        })
+    }
 
-  activityValues: number[] = [0, 100];
+    onSort() {}
 
-  isExpanded: boolean = false;
+    formatCurrency(value: number) {
+        return value.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+    }
 
-  idFrozen: boolean = false;
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal(
+            (event.target as HTMLInputElement).value,
+            'contains'
+        );
+    }
 
-  loading: boolean = true;
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
+    }
 
-  @ViewChild('filter') filter!: ElementRef;
+    editProduct(product: any) {
+        this.dialogservice.open(EditProductComponent, {
+            header: 'Edit Product',
+            width: '70%',
+            height:'auto',
+            contentStyle: {overflow: 'auto'},
+            baseZIndex: 10000,
+            maximizable: false,
+            data: product
+        })
+    }
 
-  constructor(private customerService: CustomerService, private productService: ProductService) { }
-
-  ngOnInit() {
-      this.customerService.getCustomersLarge().then(customers => {
-          this.customers1 = customers;
-          this.loading = false;
-
-          // @ts-ignore
-          this.customers1.forEach(customer => customer.date = new Date(customer.date));
-      });
-      this.customerService.getCustomersMedium().then(customers => this.customers2 = customers);
-      this.customerService.getCustomersLarge().then(customers => this.customers3 = customers);
-      this.productService.getProductsWithOrdersSmall().then(data => this.products = data);
-
-      this.representatives = [
-          { name: 'Amy Elsner', image: 'amyelsner.png' },
-          { name: 'Anna Fali', image: 'annafali.png' },
-          { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
-          { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
-          { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
-          { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
-          { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
-          { name: 'Onyama Limba', image: 'onyamalimba.png' },
-          { name: 'Stephen Shaw', image: 'stephenshaw.png' },
-          { name: 'XuXue Feng', image: 'xuxuefeng.png' }
-      ];
-
-      this.statuses = [
-          { label: 'Unqualified', value: 'unqualified' },
-          { label: 'Qualified', value: 'qualified' },
-          { label: 'New', value: 'new' },
-          { label: 'Negotiation', value: 'negotiation' },
-          { label: 'Renewal', value: 'renewal' },
-          { label: 'Proposal', value: 'proposal' }
-      ];
-  }
-
-  onSort() {
-      this.updateRowGroupMetaData();
-  }
-
-  updateRowGroupMetaData() {
-      this.rowGroupMetadata = {};
-
-      if (this.customers3) {
-          for (let i = 0; i < this.customers3.length; i++) {
-              const rowData = this.customers3[i];
-              const representativeName = rowData?.representative?.name || '';
-
-              if (i === 0) {
-                  this.rowGroupMetadata[representativeName] = { index: 0, size: 1 };
-              }
-              else {
-                  const previousRowData = this.customers3[i - 1];
-                  const previousRowGroup = previousRowData?.representative?.name;
-                  if (representativeName === previousRowGroup) {
-                      this.rowGroupMetadata[representativeName].size++;
-                  }
-                  else {
-                      this.rowGroupMetadata[representativeName] = { index: i, size: 1 };
-                  }
-              }
-          }
-      }
-  }
-
-  expandAll() {
-      if (!this.isExpanded) {
-          this.products.forEach(product => product && product.name ? this.expandedRows[product.name] = true : '');
-
-      } else {
-          this.expandedRows = {};
-      }
-      this.isExpanded = !this.isExpanded;
-  }
-
-  formatCurrency(value: number) {
-      return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  }
-
-  onGlobalFilter(table: Table, event: Event) {
-      table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
-  }
-
-  clear(table: Table) {
-      table.clear();
-      this.filter.nativeElement.value = '';
-  }
-  
+    deleteProduct(product: any) {
+        console.log('product', product);
+        this.confirmationService.confirm({
+            message: 'Are you sure you want to delete ' + product.productname + '?',
+            header: 'Confirm',
+            icon: 'pi pi-exclamation-triangle',
+            accept: () => {
+                this.productsData = this.productsData.filter((val: any) => val.id !== product.id);
+                this.productsData = {};
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+            }
+        });
+    }
 }

@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from '../auth.service';
+import { CommanService } from '../../shared/services';
+import {Title} from "@angular/platform-browser";
+
 
 @Component({
     selector: 'app-login',
@@ -41,8 +44,21 @@ export class LoginComponent {
         public layoutService: LayoutService,
         private auth: AuthService,
         private toastr: ToastrService,
-        private router: Router
-    ) {}
+        private router: Router,
+        private commanservice: CommanService,
+        private titleService:Title
+    ) {
+        this.titleService.setTitle("TP - Login");
+        this.commanservice.getTokenData().subscribe(async (result) =>{
+            if(result) {
+                const tokenvalid = await this.commanservice.isTokenValid();
+                if(tokenvalid){
+                    const uData: any = await this.commanservice.getUserData();
+                    this.selectRoute(uData.role)
+                }
+            }
+        })
+    }
     onSubmit() {
         this.submitted = true;
         this.auth.login(this.loginForm.value).subscribe(
@@ -58,5 +74,11 @@ export class LoginComponent {
                 this.toastr.error('Error', 'Unauthorized');
             }
         );
+    }
+
+    selectRoute(role: string){
+        if(role === 'Admin'){
+            this.router.navigate(['/admin']);
+        }
     }
 }

@@ -20,7 +20,6 @@ export class CommanService {
       this.getTokenData().subscribe((utoken) =>{
         if(utoken) {
           const expirytoken = JSON.parse(atob(utoken?.split('.')[1])).exp;
-          console.log(expirytoken);
           if(expirytoken*1000 > Date.now()){
             resolve (true);
           }else{
