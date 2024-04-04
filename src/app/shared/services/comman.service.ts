@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, Subject, Subscriber } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommanService {
+  subject$ = new Subject();
 
   constructor() { }
+
+  closemodel(): void {
+    this.subject$.next(true);
+  }
 
   getTokenData(): Observable<any> {
     const getToken = sessionStorage.getItem('token');
@@ -16,6 +21,7 @@ export class CommanService {
   }
 
   isTokenValid() {
+    console.log('inside middle');
     return new Promise(async (resolve) =>{
       this.getTokenData().subscribe((utoken) =>{
         if(utoken) {

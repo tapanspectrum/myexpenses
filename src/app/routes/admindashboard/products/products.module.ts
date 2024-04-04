@@ -25,21 +25,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
         CommonModule,
         ProductsRoutingModule,
         CommonModule,
-        FormsModule,
-        TableModule,
-        RatingModule,
-        ButtonModule,
-        SliderModule,
-        InputTextModule,
-        ToggleButtonModule,
-        RippleModule,
-        MultiSelectModule,
-        DropdownModule,
-        ProgressBarModule,
-        ToastModule,
         SharedModule,
-        ConfirmDialogModule,
-        ConfirmPopupModule
     ],
 })
 export class ProductsModule {}

@@ -32,7 +32,11 @@ export class AdminService {
   }
 
   editProductsData(id:any,  params: any): Observable<any> {
-    return this.http.put(`http://82.180.160.182:3002/products/1`, params);
+    return this.http.put(`${environment.api_url1}/products/${id}`, params);
+  }
+
+  deleteProductsData(id:any): Observable<any> {
+    return this.http.delete(`${environment.api_url1}/products/${id}`);
   }
 
 }

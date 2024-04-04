@@ -21,7 +21,7 @@ import { AuthGuard } from './core/guards/auth.guard';
                         },
                         {
                             path: 'users',
-                            canActivate:[AuthGuard],
+                            canActivate: [AuthGuard],
                             loadChildren: () =>
                                 import(
                                     './routes/admindashboard/users/users.module'
@@ -29,7 +29,7 @@ import { AuthGuard } from './core/guards/auth.guard';
                         },
                         {
                             path: 'products',
-                            canActivate:[AuthGuard],
+                            canActivate: [AuthGuard],
                             loadChildren: () =>
                                 import(
                                     './routes/admindashboard/products/products.module'
@@ -37,7 +37,7 @@ import { AuthGuard } from './core/guards/auth.guard';
                         },
                         {
                             path: 'roles',
-                            canActivate:[AuthGuard],
+                            canActivate: [AuthGuard],
                             loadChildren: () =>
                                 import(
                                     './routes/admindashboard/roles/roles.module'
@@ -45,7 +45,7 @@ import { AuthGuard } from './core/guards/auth.guard';
                         },
                         {
                             path: 'categories',
-                            canActivate:[AuthGuard],
+                            canActivate: [AuthGuard],
                             loadChildren: () =>
                                 import(
                                     './routes/admindashboard/category/category.module'
@@ -69,4 +69,4 @@ import { AuthGuard } from './core/guards/auth.guard';
     ],
     exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

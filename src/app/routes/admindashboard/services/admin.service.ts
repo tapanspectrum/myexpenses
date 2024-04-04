@@ -31,4 +31,8 @@ export class AdminService {
     }));
   }
 
+  deleteProductsData(id:any): Observable<any> {
+    return this.http.delete(`${environment.api_url1}/products/${id}`);
+  }
+
 }

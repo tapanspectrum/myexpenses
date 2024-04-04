@@ -3,21 +3,22 @@ import { Table } from 'primeng/table';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AdminService } from '../../services';
-import { Observable } from 'rxjs';
-import { EditProductComponent } from '../../../../shared/components'
+import { CommanService } from '../../../../shared/services';
+import { EditProductComponent } from 'src/app/shared/components';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 interface expandedRows {
     [key: string]: boolean;
 }
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrl: './products.component.scss',
-  providers: [MessageService, ConfirmationService, DialogService],
+    selector: 'app-products',
+    templateUrl: './products.component.html',
+    styleUrl: './products.component.scss',
+    providers: [MessageService, ConfirmationService, DialogService, DynamicDialogRef],
 })
 export class ProductsComponent implements OnInit {
-
     productsData!: any;
     rowGroupMetadata: any;
 
@@ -34,19 +35,29 @@ export class ProductsComponent implements OnInit {
     editing: any;
 
     @ViewChild('filter') filter!: ElementRef;
+    ref: DynamicDialogRef | undefined;
 
     constructor(
         private adminservice: AdminService,
         private confirmationService: ConfirmationService,
         private messageService: MessageService,
-        private dialogservice: DialogService
+        private dialogservice: DialogService,
+        private commanservice: CommanService,
+        private toastr: ToastrService,
+        private router: Router,
     ) {}
 
     ngOnInit() {
-        this.adminservice.getProductsData().subscribe((res) =>{
+        this.adminservice.getProductsData().subscribe((res) => {
             this.productsData = res;
             this.loading = false;
-        })
+        });
+
+        this.commanservice.subject$.subscribe((res) => {
+            if (res) {
+                this.ref?.close();
+            }
+        });
     }
 
     onSort() {}
@@ -71,28 +82,55 @@ export class ProductsComponent implements OnInit {
     }
 
     editProduct(product: any) {
-        this.dialogservice.open(EditProductComponent, {
+        this.ref = this.dialogservice.open(EditProductComponent, {
             header: 'Edit Product',
             width: '70%',
-            height:'auto',
-            contentStyle: {overflow: 'auto'},
+            height: 'auto',
+            contentStyle: { overflow: 'auto' },
             baseZIndex: 10000,
             maximizable: false,
-            data: product
-        })
+            modal:true,
+            closable: true,
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '90vw'
+            },
+            data: product,
+        });
     }
 
     deleteProduct(product: any) {
         console.log('product', product);
         this.confirmationService.confirm({
-            message: 'Are you sure you want to delete ' + product.productname + '?',
+            message:
+                'Are you sure you want to delete ' + product.productname + '?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                this.productsData = this.productsData.filter((val: any) => val.id !== product.id);
+                this.productsData = this.productsData.filter(
+                    (val: any) => val.id !== product.productid
+                );
                 this.productsData = {};
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-            }
+                this.adminservice
+                    .deleteProductsData(product.productid)
+                    .subscribe((res) => {
+                        if (res.statusCode === 200) {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Successful',
+                                detail: 'Product Deleted',
+                                life: 3000,
+                            });
+                            this.router.navigate(['/admin/products']);
+                        }
+                    });
+            },
         });
+    }
+
+    destroy() {
+        if (this.ref) {
+            this.ref?.destroy();
+        }
     }
 }

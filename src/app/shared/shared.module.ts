@@ -37,6 +37,7 @@ import { PrimeNgModule } from './primeNg.module';
         EditProductComponent,
         EditRoleComponent,
         EditUserComponent,
+        PrimeNgModule
     ],
 })
 export class SharedModule {}
