@@ -20,6 +20,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { httpServicesInterceptor } from './core/interceptor/http-services.interceptor';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 @NgModule({
     declarations: [AppComponent],
@@ -30,6 +31,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
         ToastrModule.forRoot(),
         ConfirmDialogModule,
         ConfirmPopupModule,
+        NgIdleKeepaliveModule.forRoot()
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },

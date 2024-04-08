@@ -26,6 +26,7 @@
         "@fullcalendar/daygrid": "^6.0.3",
         "@fullcalendar/interaction": "^6.0.3",
         "@fullcalendar/timegrid": "^6.0.3",
+        "@ng-idle/keepalive": "^14.0.0",
         "chart.js": "^3.3.2",
         "ngx-toastr": "^18.0.0",
         "primeflex": "^3.3.1",

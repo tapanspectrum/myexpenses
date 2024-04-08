@@ -56,3 +56,10 @@ $gutter: 1rem; //for primeflex grid system
 .p-fluid .p-dropdown {
     border-radius: 0px !important;
 }
+
+@media (min-width: 992px) {
+.layout-wrapper.layout-static.layout-static-inactive .layout-sidebar {
+    transform: translateX(-100%);
+    left: 0 !important;
+}
+}

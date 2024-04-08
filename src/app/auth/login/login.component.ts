@@ -12,8 +12,7 @@ import { Router } from '@angular/router';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { AuthService } from '../auth.service';
 import { CommanService } from '../../shared/services';
-import {Title} from "@angular/platform-browser";
-
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-login',
@@ -33,6 +32,7 @@ export class LoginComponent {
     loginForm: FormGroup = new FormGroup({
         username: new FormControl(''),
         password: new FormControl(''),
+        remembermecheck: new FormControl('')
     });
     submitted = false;
 
@@ -40,33 +40,62 @@ export class LoginComponent {
 
     password!: string;
 
+    remembermed: any;
+    remberusername: any;
+
     constructor(
         public layoutService: LayoutService,
         private auth: AuthService,
         private toastr: ToastrService,
         private router: Router,
         private commanservice: CommanService,
-        private titleService:Title
+        private titleService: Title
     ) {
-        this.titleService.setTitle("TP - Login");
-        this.commanservice.getTokenData().subscribe(async (result) =>{
-            if(result) {
+        this.titleService.setTitle('TP - Login');
+        this.remembermed = localStorage.getItem('rememberme');
+        this.remberusername = localStorage.getItem('username');
+        this.commanservice.getTokenData().subscribe(async (result) => {
+            if (result) {
                 const tokenvalid = await this.commanservice.isTokenValid();
-                if(tokenvalid){
+                if (tokenvalid) {
                     const uData: any = await this.commanservice.getUserData();
-                    this.selectRoute(uData.role)
+                    this.commanservice.runTimeOutInterval(uData);
+                    this.selectRoute(uData.role);
                 }
             }
-        })
+        });
     }
     onSubmit() {
+        const params = {
+            username: this.loginForm.value.username,
+            password: this.loginForm.value.password,
+        }
+        if(this.loginForm.value.remembermecheck) {
+            localStorage.setItem('rememberme', this.loginForm.value.remembermecheck);
+        }else{
+            localStorage.removeItem('rememberme');
+            localStorage.removeItem('username');
+        }
         this.submitted = true;
-        this.auth.login(this.loginForm.value).subscribe(
+        this.auth.login(params).subscribe(
             (result) => {
                 this.toastr.success('Success', 'SuccessFully Login !!');
-                if(result.data.role === 'Admin'){
+                if (result.data.role === 'Admin') {
+                    if(this.loginForm.value.remembermecheck) {
+                        localStorage.setItem('username', result.data.username);
+                    }
                     sessionStorage.setItem('token', result.data.token);
                     this.router.navigate(['/admin']);
+                    this.commanservice
+                        .getTokenData()
+                        .subscribe(async (result) => {
+                            if (result) {
+                                const uData: any =  await this.commanservice.getUserData();
+                                this.commanservice.runTimeOutInterval(uData);
+                                this.commanservice.userIdleState();
+                                this.selectRoute(uData.role);
+                            }
+                        });
                 }
             },
             (error) => {
@@ -76,8 +105,8 @@ export class LoginComponent {
         );
     }
 
-    selectRoute(role: string){
-        if(role === 'Admin'){
+    selectRoute(role: string) {
+        if (role === 'Admin') {
             this.router.navigate(['/admin']);
         }
     }

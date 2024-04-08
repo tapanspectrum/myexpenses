@@ -35,4 +35,33 @@ export class AdminService {
     return this.http.delete(`${environment.api_url1}/products/${id}`);
   }
 
+  getDashboardData(): Observable<any> {
+    return this.http.get(`${environment.local_url}/assets/api/dashboard.json`).pipe(map((res: any) =>{
+      return res?.data;
+    }));
+  }
+
+  getRecentSalesData(): Observable<any> {
+    return this.http.get(`${environment.local_url}/assets/api/recent-sales.json`).pipe(map((res: any) =>{
+      return res?.data;
+    }));
+  }
+
+  getSalesOverviewData(): Observable<any> {
+    return this.http.get(`${environment.local_url}/assets/api/salesoverview.json`).pipe(map((res: any) =>{
+      return res?.data;
+    }));
+  }
+
+  getBestSalesData(): Observable<any> {
+    return this.http.get(`${environment.local_url}/assets/api/best-selling.json`).pipe(map((res: any) =>{
+      return res?.data;
+    }));
+  }
+
+  getNotificationData(): Observable<any> {
+    return this.http.get(`${environment.local_url}/assets/api/notifications.json`).pipe(map((res: any) =>{
+      return res?.data;
+    }));
+  } 
 }

@@ -1,0 +1,15 @@
+{
+    "message": "records fetched Succesfully",
+    "statusCode": 200,
+    "data": {
+        "id": 1,
+        "total_orders": 150,
+        "new_orders": 24,
+        "total_revenue": 210000,
+        "revenue_growth": 52,
+        "total_customers": 28441,
+        "new_customers": 520,
+        "new_comments": 152,
+        "read_comments": 84
+    }
+}

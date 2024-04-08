@@ -4,13 +4,13 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3">Orders</span>
-                    <div class="text-900 font-medium text-xl">152</div>
+                    <div class="text-900 font-medium text-xl">{{dashboard_order_data.total_orders}}</div>
                 </div>
                 <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
                     <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">24 new </span>
+            <span class="text-green-500 font-medium">{{dashboard_order_data.new_orders}} new </span>
             <span class="text-500">since last visit</span>
         </div>
     </div>
@@ -19,13 +19,13 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3">Revenue</span>
-                    <div class="text-900 font-medium text-xl">$2.100</div>
+                    <div class="text-900 font-medium text-xl">₹ {{dashboard_order_data.total_revenue}}</div>
                 </div>
                 <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
                     <i class="pi pi-map-marker text-orange-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">%52+ </span>
+            <span class="text-green-500 font-medium">%{{dashboard_order_data.revenue_growth}}+ </span>
             <span class="text-500">since last week</span>
         </div>
     </div>
@@ -34,13 +34,13 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3">Customers</span>
-                    <div class="text-900 font-medium text-xl">28441</div>
+                    <div class="text-900 font-medium text-xl">{{dashboard_order_data.total_customers}}</div>
                 </div>
                 <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
                     <i class="pi pi-inbox text-cyan-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">520  </span>
+            <span class="text-green-500 font-medium">{{dashboard_order_data.new_customers}}  </span>
             <span class="text-500">newly registered</span>
         </div>
     </div>
@@ -49,13 +49,13 @@
             <div class="flex justify-content-between mb-3">
                 <div>
                     <span class="block text-500 font-medium mb-3">Comments</span>
-                    <div class="text-900 font-medium text-xl">152 Unread</div>
+                    <div class="text-900 font-medium text-xl">{{dashboard_order_data.new_comments}} Unread</div>
                 </div>
                 <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
                     <i class="pi pi-comment text-purple-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">85 </span>
+            <span class="text-green-500 font-medium">{{dashboard_order_data.read_comments}} </span>
             <span class="text-500">responded</span>
         </div>
     </div>
