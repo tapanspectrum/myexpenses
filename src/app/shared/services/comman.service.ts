@@ -85,16 +85,16 @@ export class CommanService {
 
     userIdleState(): any {
       console.log('idle inside');
-    //   this.idle.watch();
+      this.idle.watch();
     }
 
     runTimeOutInterval(users: any) {
-        // const todaysDate = new Date().getTime();
-        // const expirationDate = users.exp * 1000;
-        // const timeInterval = expirationDate - todaysDate;
-        // this.clearTimeout = setTimeout(() => {
-        //     this.logout();
-        // }, timeInterval);
+        const todaysDate = new Date().getTime();
+        const expirationDate = users.exp * 1000;
+        const timeInterval = expirationDate - todaysDate;
+        this.clearTimeout = setTimeout(() => {
+            this.logout();
+        }, timeInterval);
     }
 
     logout() {

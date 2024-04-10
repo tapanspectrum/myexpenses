@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.commanservice.userIdleState();
+        this.commanservice.userIdleState();
         this.primengConfig.ripple = true;
         this.commanservice.getTokenData().subscribe(async (result) => {
             if (result) {

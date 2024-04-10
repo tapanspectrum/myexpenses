@@ -24,6 +24,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     subscription!: Subscription;
 
     dashboard_order_data: any;
+    RecentSalesData: any;
+    BestSalesData: any;
+    SalesOverviewData: any[] = [];
+    NotificationData: any[] = [];
 
     constructor(
         private productService: ProductService,
@@ -50,17 +54,59 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
         this.adminservice.getRecentSalesData().subscribe((res) => {
             console.log('res', res);
+            this.RecentSalesData = res;
         });
         this.adminservice.getBestSalesData().subscribe((res) => {
             console.log('res', res);
+            this.BestSalesData = res.slice(0, 10);
         });
 
         this.adminservice.getSalesOverviewData().subscribe((res) => {
             console.log('res', res);
+            let data = new Set(
+                res.map((item: any) => {
+                    return item.region;
+                })
+            );
+            data.forEach((regiondata) => {
+                let qanva = 0;
+                if (regiondata) {
+                    this.SalesOverviewData.push({
+                        region: regiondata,
+                        notifications: res.reduce((i: any) => {
+                            if (i.region === regiondata) {
+                              return  i.quantity
+                            }
+                        }),
+                    });
+                }
+            });
+            // this.SalesOverviewData = res;
+            console.log('this.SalesOverviewData', this.SalesOverviewData);
         });
 
         this.adminservice.getNotificationData().subscribe((res) => {
-            console.log('res', res);
+            res.sort(
+                (a: any, b: any) =>
+                    new Date(b.purchase_date).getTime() -
+                    new Date(a.purchase_date).getTime()
+            );
+            let data = new Set(
+                res.map((item: any) => {
+                    return item.purchase_date;
+                })
+            );
+            data.forEach((date) => {
+                if (date) {
+                    this.NotificationData.push({
+                        date: date,
+                        notifications: res.filter(
+                            (i: any) => i.purchase_date === date
+                        ),
+                    });
+                }
+            });
+            // this.NotificationData = res;
         });
         this.items = [
             { label: 'Add New', icon: 'pi pi-fw pi-plus' },

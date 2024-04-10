@@ -10,10 +10,11 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { NiceDateFormatPipe } from './dateFormate.pipe';
 
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, NiceDateFormatPipe],
   imports: [
     CommonModule,
     DashboardRoutingModule,
