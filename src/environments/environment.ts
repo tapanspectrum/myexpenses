@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  api_url: 'http://nexustechie.in/idm',
-  api_url1: 'http://nexustechie.in/product',
+  production: true,
+  api_url: 'https://nexustechie.in/idm',
+  api_url1: 'https://nexustechie.in/product',
 };
 
 /*
