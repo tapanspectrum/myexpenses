@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://82.180.160.182:3001',
-  api_url1: 'http://82.180.160.182:3002',
+  api_url: 'http://nexustechie.in:3001',
+  api_url1: 'http://nexustechie.in:3002',
   // api_url: 'http://localhost:3001',
   // api_url1: 'http://localhost:3002',
   local_url:'http://localhost:4200'

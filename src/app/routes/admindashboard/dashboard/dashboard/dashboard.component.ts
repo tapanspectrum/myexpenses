@@ -28,6 +28,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     BestSalesData: any;
     SalesOverviewData: any[] = [];
     NotificationData: any[] = [];
+    sales_unit_price: any[] = [];
+    sales_quantity: any[] = [];
+    sales_region: any[] = [];
 
     constructor(
         private productService: ProductService,
@@ -44,28 +47,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.initChart();
         this.productService
             .getProductsSmall()
             .then((data) => (this.products = data));
         this.adminservice.getDashboardData().subscribe((res) => {
-            console.log('res', res);
             this.dashboard_order_data = res;
         });
         this.adminservice.getRecentSalesData().subscribe((res) => {
-            console.log('res', res);
             this.RecentSalesData = res;
         });
         this.adminservice.getBestSalesData().subscribe((res) => {
-            console.log('res', res);
             this.BestSalesData = res.slice(0, 10);
         });
 
         this.adminservice.getSalesOverviewData().subscribe((res) => {
-            console.log('res', res);
             let data = new Set(
                 res.map((item: any) => {
-                    return item.region;
+                    return item.purchase_date;
                 })
             );
             data.forEach((regiondata) => {
@@ -73,16 +71,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 if (regiondata) {
                     this.SalesOverviewData.push({
                         region: regiondata,
-                        notifications: res.reduce((i: any) => {
-                            if (i.region === regiondata) {
-                              return  i.quantity
+                        notifications: res.filter((i: any) => {
+                            if (i.purchase_date === regiondata) {
+                                return i.quantity;
                             }
                         }),
                     });
                 }
             });
             // this.SalesOverviewData = res;
-            console.log('this.SalesOverviewData', this.SalesOverviewData);
+            let idta = 0;
+            let idta1 = 0;
+            let i = 0;
+            this.SalesOverviewData.map((result, index) => {
+                this.sales_region.push(result.region);
+                result.notifications.map((idata: any, ind: any) => {
+                    if(ind === 0) {
+                        idta = 0;
+                        idta1 = 0;
+                    }
+                    
+                    idta = idta + idata.unit_price;
+                    idta1 = idta1 + idata.quantity;
+                  
+                });
+                this.sales_unit_price.push(idta);
+                this.sales_quantity.push(idta1);
+            });
+            this.initChart();
         });
 
         this.adminservice.getNotificationData().subscribe((res) => {
@@ -124,19 +140,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
             documentStyle.getPropertyValue('--surface-border');
 
         this.chartData = {
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-                'July',
-            ],
+            labels: this.sales_region,
             datasets: [
                 {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    label: 'Sales Quantity By Region',
+                    data: this.sales_quantity,
                     fill: false,
                     backgroundColor:
                         documentStyle.getPropertyValue('--bluegray-700'),
@@ -144,15 +152,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
                         documentStyle.getPropertyValue('--bluegray-700'),
                     tension: 0.4,
                 },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    backgroundColor:
-                        documentStyle.getPropertyValue('--green-600'),
-                    borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: 0.4,
-                },
+                // {
+                //     label: 'Second Dataset',
+                //     data: [28, 48, 40, 19, 86, 27, 90],
+                //     fill: false,
+                //     backgroundColor:
+                //         documentStyle.getPropertyValue('--green-600'),
+                //     borderColor: documentStyle.getPropertyValue('--green-600'),
+                //     tension: 0.4,
+                // },
             ],
         };
 
