@@ -6,4 +6,4 @@ npm i ;
 
 npm run build;
 
-sudo cp .  -r /home/fe-dailyexpenses/myexpenses/dist/tapu-product/ /var/www/html/dev
+sudo cp   -r /home/fe-dailyexpenses/myexpenses/dist/tapu-product/ /var/www/html/dev
