@@ -22,7 +22,7 @@ export class httpServicesInterceptor implements HttpInterceptor {
                 this.tokenv = res;
             });
         })();
-        if (this.tokenv) {
+        if (this.tokenv && request.url.indexOf('login') === 0) {
             const newHeaders = new HttpHeaders({
                 'Content-Type': 'application/json',
                 token: this.tokenv,

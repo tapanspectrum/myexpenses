@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://nexustechie.in/idm',
-  api_url1: 'http://nexustechie.in/product',
+  api_url: 'http://localhost:3008/api',
+  api_url1: 'http://localhost:3007/api',
 };
 
 /*

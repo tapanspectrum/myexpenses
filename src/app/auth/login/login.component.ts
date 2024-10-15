@@ -67,7 +67,7 @@ export class LoginComponent {
     }
     onSubmit() {
         const params = {
-            username: this.loginForm.value.username,
+            email: this.loginForm.value.username,
             password: this.loginForm.value.password,
         }
         if(this.loginForm.value.remembermecheck) {
@@ -84,12 +84,12 @@ export class LoginComponent {
                     if(this.loginForm.value.remembermecheck) {
                         localStorage.setItem('username', result.data.username);
                     }
-                    sessionStorage.setItem('token', result.data.token);
+                    sessionStorage.setItem('token', result.data.access_token);
                     this.router.navigate(['/admin']);
                     this.commanservice
                         .getTokenData()
                         .subscribe(async (result) => {
-                            if (result) {
+                            if (result) {debugger
                                 const uData: any =  await this.commanservice.getUserData();
                                 this.commanservice.runTimeOutInterval(uData);
                                 this.commanservice.userIdleState();

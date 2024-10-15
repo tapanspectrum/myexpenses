@@ -56,7 +56,7 @@ export class CommanService {
         });
     }
 
-    getUserData() {
+    getUserData() {debugger
         return new Promise(async (resolve) => {
             this.getTokenData().subscribe((utoken) => {
                 if (utoken) {

@@ -13,6 +13,6 @@ export class AuthService {
   ) { }
 
   login(loginObj: any): Observable<any> {
-    return this.http.post(`${environment.api_url}/auths/login`, loginObj);
+    return this.http.post(`${environment.api_url}/auth/login`, loginObj);
   }
 }
